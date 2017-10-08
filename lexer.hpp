@@ -2,21 +2,54 @@
 #include <iostream>
 #include <exception>
 
+namespace omega_lexer {
+
 class FileException : public std::exception {
     const char * msg_;
-    FileException();
-    FileException(const char * msg);
-//    virtual const char * what() const throw();
-    virtual const char * what() const throw();
+    
+    public:
+        FileException();
+        FileException(const char * msg);
+        virtual const char * what() const throw();
 };
 
-// eventually this should go into a header file
+class SyntaxException : public std::exception {
+    const char * msg_;
+    
+    public:
+        SyntaxException();
+        SyntaxException(const char * msg);
+        virtual const char * what() const throw();
+};
+
+// https://stackoverflow.com/a/12183377 the first comment: "enum class" makes
+// it so that enums get their own scope, and the elements aren't dumped into
+// the global namespace
+enum class Token {
+    tok_eof = EOF,
+    tok_func = -2,
+    tok_identifier = -10,
+    tok_number = -20,
+    tok_unknown = 1
+};
+
 class OmegaLexer {
     public:
+        int last_char;
+        int return_char;
+        std::string identifier_str;
+        double numeric_val;
+
+        // Constructors and destructor
         OmegaLexer(const char*);
         ~OmegaLexer();
-        char getChar();
+
+        // Main file parsing functions
+        Token getTok();
+        int getChar(); // return type of int b/c EOF is -1 (char only guaranteed to support 0 to 127)
 
     private:
         std::ifstream code_file;
 };
+
+}

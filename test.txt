@@ -1,1 +1,5 @@
-Hello world!
+function red
+function blue
+function hello_world
+10 + 1
+0.2*.3
