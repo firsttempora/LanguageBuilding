@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <exception>
+#include <iostream>
 // for isspace, isalnum, isalpha
 #include <ctype.h>
 #include "lexer.hpp"
@@ -12,7 +13,13 @@ using namespace omega_lexer;
 // *********** //
 
 // https://www.uow.edu.au/~lukes/TEXTBOOK/notes-cpp/io/readtextfile.html
+
+OmegaLexer::OmegaLexer(void){
+    UseCIN = true;
+}
+
 OmegaLexer::OmegaLexer(const char* file_name){
+    UseCIN = false;
     code_file.open(file_name);
     if(!code_file){
         // eventually use string streams to put the file name in the
@@ -23,7 +30,8 @@ OmegaLexer::OmegaLexer(const char* file_name){
 }
 
 OmegaLexer::~OmegaLexer(void){
-    code_file.close();
+    if(code_file)
+        code_file.close();
 }
 
 Token OmegaLexer::getTok(void){
@@ -86,7 +94,7 @@ Token OmegaLexer::getTok(void){
      */
     
     if (last_char == '#'){
-        do last_char == getChar();
+        do last_char = getChar();
         while (last_char != EOF && last_char != '\n' && last_char != '\r');
 
         // Unless we've hit the end of the file, there should be another token
@@ -110,7 +118,8 @@ int OmegaLexer::getChar(void){
      * is exhausted then get the next chunk.
      */
     int ch;
-    ch = code_file.get();
+    if(UseCIN) ch = std::cin.get();
+    else  ch = code_file.get();
     return ch;
 }
 

@@ -1,6 +1,10 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 #include <fstream>
 #include <iostream>
 #include <exception>
+#include <string>
 
 namespace omega_lexer {
 
@@ -34,6 +38,7 @@ enum class Token {
 };
 
 class OmegaLexer {
+        bool UseCIN;
     public:
         int last_char;
         int return_char;
@@ -41,6 +46,7 @@ class OmegaLexer {
         double numeric_val;
 
         // Constructors and destructor
+        OmegaLexer(void); // to read from cin
         OmegaLexer(const char*);
         ~OmegaLexer();
 
@@ -53,3 +59,4 @@ class OmegaLexer {
 };
 
 }
+#endif
