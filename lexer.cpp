@@ -103,6 +103,7 @@ Token OmegaLexer::getTok(void){
             return getTok();
     }
 
+
     /* Otherwise, we don't know what it is, so just return it. Positive
      * token values are returned for unspecified characters like this.
      */
